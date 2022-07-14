@@ -320,7 +320,20 @@ namespace Live2D.Cubism.Framework.Json
             get
             {
                 // Load textures only if necessary.
-                if (_textures == null)
+
+                if (_textures != null && _textures.Length > 0)
+                {
+
+                    var temp = new List<Texture2D>();
+                    foreach (var s in _textures)
+                    {
+                        if (s != null)
+                            temp.Add(s);
+                    }
+                    _textures = temp.ToArray();
+                }
+
+                if (_textures == null || _textures.Length <= 0)
                 {
                     _textures = new Texture2D[FileReferences.Textures.Length];
 
@@ -625,7 +638,7 @@ namespace Live2D.Cubism.Framework.Json
         /// <returns>The asset on success; <see langword="null"/> otherwise.</returns>
         private T LoadReferencedAsset<T>(string referencedFile) where T : class
         {
-            var assetPath = Path.GetDirectoryName(AssetPath) + "/" + referencedFile;
+            var assetPath = Path.GetDirectoryName(AssetPath).Replace("\\", "/") + "/" + referencedFile;
 
 
             return LoadAssetAtPath(typeof(T), assetPath) as T;
