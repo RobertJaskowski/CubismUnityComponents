@@ -394,6 +394,10 @@ namespace Live2D.Cubism.Framework.Json
 
             var model = CubismModel.InstantiateFrom(moc);
 
+            if (model == null)
+            {
+                return null;
+            }
 
             model.name = Path.GetFileNameWithoutExtension(FileReferences.Moc);
 
@@ -410,6 +414,10 @@ namespace Live2D.Cubism.Framework.Json
 
             var drawables = model.Drawables;
 
+            if (renderers == null || drawables  == null)
+            {
+                return null;
+            }
 
             // Initialize materials.
             for (var i = 0; i < renderers.Length; ++i)
